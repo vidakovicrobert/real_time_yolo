@@ -6,10 +6,10 @@ import cv2
 model = YOLO('best.pt')
 
 # Set your desired confidence threshold (e.g., 50% confidence)
-confidence_threshold = 0.5
+confidence_threshold = 0.4
 
 # Try DirectShow for webcam compatibility
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Change to 0 or 1 based on your webcam index
+cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # Change to 0 or 1 based on your webcam index
 if not cap.isOpened():
     print("Failed to open camera!")
 else:
@@ -49,8 +49,10 @@ while True:
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 3)
             cvzone.putTextRect(image, f'{class_detected_name} ({int(confidence * 100)}%)', [x1 + 8, y1 - 12], thickness=2, scale=1.5)
 
+    # Resize the image to a desired size (e.g., 640x480)
+    image_resized = cv2.resize(image, (640, 480))
     # Show the image with detection results
-    cv2.imshow('frame', image)
+    cv2.imshow('frame', image_resized)
 
     # Write the processed frame to the output video
     out.write(image)
